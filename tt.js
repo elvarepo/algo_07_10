@@ -33,7 +33,6 @@ function largestRange(array) {
     for (let n of array) {
         if (!obj[n]) continue;
         obj[n] = false;
-        console.log(obj, '..........', n);
 
         let curLength = 1;
         let left = n - 1;
