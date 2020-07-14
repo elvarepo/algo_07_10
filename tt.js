@@ -55,3 +55,44 @@ function largestRange(array) {
     }
     return bestRange;
 }
+
+// Apartment Hunting
+function apartmentHunting(blocks, reqs) {
+  let minFromBlocks = reqs.map(r => getMinDistance(blocks, r))
+  let maxAtBloacks = getMaxDistance(blocks, minFromBlocks);
+  return getIdxAtMinVal(maxAtBloacks);
+}
+function getMinDistance(blocks, req){
+  let minDistance = new Array(blocks.length);
+  let minReqIdx = Infinity;
+  for(let i = 0; i < blocks.length; i++){
+    if(blocks[i][req]) minReqIdx = i;
+    minDistance[i] = Math.abs(i - minReqIdx);
+  }
+  for(let i = blocks.length - 1; i >= 0; i--){
+    if(blocks[i][[req]]) minReqIdx = i;
+    minDistance[i] = Math.min(minDistance[i],Math.abs(i - minReqIdx) )
+  }
+  return minDistance;
+}
+function getMaxDistance(blocks, minDistance){
+  let maxDistanceAtBlocks = new Array(blocks.length);
+  for(let i = 0; i < blocks.length; i++){
+    let minDisAtBlock = minDistance.map(distances => distances[i]);
+    maxDistanceAtBlocks[i] = Math.max(...minDisAtBlock);
+  }
+  return maxDistanceAtBlocks;
+}
+function getIdxAtMinVal(arr){
+	let idx = 0;
+	let minVal = Infinity;
+	for(let i = 0; i < arr.length; i++){
+		let curVal = arr[i];
+		if(curVal < minVal){
+			minVal = curVal;
+			idx = i;
+      console.log(idx);
+		}
+	}
+	return idx;
+}
