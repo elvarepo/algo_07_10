@@ -84,15 +84,14 @@ function getMaxDistance(blocks, minDistance){
   return maxDistanceAtBlocks;
 }
 function getIdxAtMinVal(arr){
-	let idx = 0;
-	let minVal = Infinity;
-	for(let i = 0; i < arr.length; i++){
-		let curVal = arr[i];
-		if(curVal < minVal){
-			minVal = curVal;
-			idx = i;
-      console.log(idx);
-		}
-	}
-	return idx;
+  let idx = 0;
+  let minVal = Infinity;
+  for(let i = 0; i < arr.length; i++){
+    let curVal = arr[i];
+    if(curVal < minVal){
+	minVal = curVal;
+	idx = i;
+     }
+  }
+  return idx;
 }
