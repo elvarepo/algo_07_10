@@ -95,3 +95,70 @@ function getIdxAtMinVal(arr){
   }
   return idx;
 }
+
+// Flatten Binary Tree
+function flattenBinaryTree(root) {
+  let inOrderNodes = getNodesInOrder(root,[]);
+  for(let i = 0; i < inOrderNodes.length - 1; i++){
+    let leftNode = inOrderNodes[i];
+    let rightNode = inOrderNodes[i + 1];
+    leftNode.right = rightNode;
+    rightNode.left = leftNode;
+  }
+  return inOrderNodes[0]
+}
+function getNodesInOrder(tree, array){
+  if(tree !== null){
+		getNodesInOrder(tree.left, array);
+    array.push(tree);
+    getNodesInOrder(tree.right, array)
+	}
+  return array;
+}
+
+// Iterative In-order Traversal
+function iterativeInOrderTraversal(tree, callback) {
+  let preNode = null;
+  let curNode = tree;
+  while(curNode !== null){
+    let nextNode;
+    if(preNode === null || preNode === curNode.parent){
+      if(curNode.left !== null){
+        nextNode = curNode.left;
+      } else {
+        callback(curNode);
+        nextNode = curNode.right !== null ? curNode.right : curNode.parent;
+      }
+    } else if(preNode === curNode.left){
+      callback(curNode);
+      nextNode = curNode.right !== null ? curNode.right : curNode.parent;
+    } else {
+      nextNode = curNode.parent;
+    }
+    preNode = curNode;
+    curNode = nextNode;
+  }
+}
+
+// Water Area
+function waterArea(heights) {
+  let max = new Array(heights.length).fill(0);
+	let leftMax = 0;
+	for(let i = 0; i < heights.length; i++){
+		let height = heights[i];
+		max[i] = leftMax;
+		leftMax = Math.max(leftMax, height);
+	}
+	let rightMax = 0;
+	for(let i = heights.length - 1; i >= 0; i--){
+		let height = heights[i];
+		let minHeight = Math.min(rightMax, max[i]);
+		if(height < minHeight){
+			max[i] = minHeight - height;
+		} else {
+			max[i] = 0;
+		}
+		rightMax = Math.max(rightMax, height);
+	}
+	return max.reduce((a,b) => a + b, 0)
+}
