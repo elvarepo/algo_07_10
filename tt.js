@@ -162,3 +162,75 @@ function waterArea(heights) {
 	}
 	return max.reduce((a,b) => a + b, 0)
 }
+
+// Accounts Merge
+var accountsMerge = function(accounts) {
+    const uf = new UnionFind(accounts.length);
+    const emails = {};
+    const names = {};
+
+
+    for (let i = 0; i < accounts.length; i++) {
+        let acct = accounts[i];
+        names[i] = acct[0];
+
+        for (let j = 1; j < acct.length; j++) {
+            if (acct[j] in emails) {
+                var idx = emails[acct[j]]
+                uf.union(idx, i);
+            } else {
+                emails[acct[j]] = i;
+            }
+        }
+    }
+
+    const disjointSets = {};
+    for (let i = 0; i < accounts.length; i++) {
+        let acct = accounts[i];
+        let parent = uf.find(i);
+
+        if (!disjointSets[parent]) {
+            disjointSets[parent] = new Set();
+        }
+
+        for (let j = 1; j < acct.length; j++) {
+            disjointSets[parent].add(acct[j]);
+        }
+    }
+
+    const res = [];
+    const keys = Object.keys(disjointSets);
+
+    for (let i = 0; i < keys.length; i++) {
+        let sortedEmails = [...disjointSets[keys[i]]].sort();
+        res.push([names[keys[i]], ...sortedEmails]);
+    }
+
+    return res;
+};
+
+class UnionFind {
+    constructor(size) {
+        this.parents = new Array(size);
+
+        for (let i = 0; i < size; i++) {
+            this.parents[i] = i;
+        }
+    }
+
+    find(x) {
+        if (this.parents[x] !== x) {
+            this.parents[x] = this.find(this.parents[x]);
+        }
+
+        return this.parents[x];
+    }
+    union(a, b) {
+        let parentA = this.find(a);
+        let parentB = this.find(b);
+
+        if (parentA !== parentB) {
+            this.parents[parentA] = parentB;
+        }
+    }
+};
