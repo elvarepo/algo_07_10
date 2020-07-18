@@ -234,3 +234,43 @@ class UnionFind {
         }
     }
 };
+
+// Longest Polindrom Substring
+function longestPalindromicSubstring(string) {
+  let curLongest = [0, 1];
+	for(let i = 1; i < string.length; i++){
+		let odd = getLongestPalindrom(string, i - 1, i + 1);
+		let even = getLongestPalindrom(string, i - 1, i);
+		let longest = odd[1] - odd[0] > even[1] - even[0] ? odd : even;
+		curLongest = curLongest[1] - curLongest[0] > longest[1] - longest[0] ? curLongest : longest;
+	}
+	return string.slice(curLongest[0], curLongest[1]);
+}
+
+function getLongestPalindrom(string, leftIdx, rightIdx){
+	while(leftIdx >= 0 && rightIdx < string.length){
+		if(string[leftIdx] !== string[rightIdx]) break;
+		leftIdx--;
+		rightIdx++;
+	}
+	return [leftIdx + 1, rightIdx];
+}
+
+// Balanced Brackets
+function balancedBrackets(string) {
+  let stack = [];
+	let matchBrackets = {')':'(',']':'[','}':'{'};
+	for(let i = 0; i < string.length; i++){
+		if(matchBrackets[string[i]]){
+      if(stack.length == 0) return false;
+			if(matchBrackets[string[i]] == stack[stack.length -1]) {
+				stack.pop();
+			} else {
+				return false
+			}
+		} else if(string[i] == '(' || string[i] == '{' || string[i] == '[' ){
+			stack.push(string[i]);
+		}
+	}
+		return stack.length == 0;
+}
