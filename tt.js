@@ -274,3 +274,78 @@ function balancedBrackets(string) {
 	}
 		return stack.length == 0;
 }
+
+// Boggle Board
+function boggleBoard(board, words) {
+  let trie = new Trie3();
+	for(let word of words){
+		trie.add(word);
+	}
+	let finalWords = {};
+	let visited = board.map(row => row.map(letter => false));
+	for(let i = 0; i < board.length; i++){
+		for(let j = 0; j < board[i].length; j++){
+			if(trie.root[board[i][j]] && visited[i][j] == false){
+			explore(i, j, board, trie.root, visited, finalWords);
+			}
+		}
+	}
+	return Object.keys(finalWords);
+}
+function explore(i, j, board, node, visited, finalWords){
+	if(visited[i][j]) return;
+	let char = board[i][j];
+	if(!node[char]) return;
+	visited[i][j] = true;
+	node = node[char];
+	if('*' in node) finalWords[node['*']] = true;
+	let neighbors = getNeighbors(i, j, board);
+	for(let n of neighbors){
+		explore(n[0], n[1], board, node, visited, finalWords);
+	}
+	visited[i][j] = false;
+}
+
+function getNeighbors(i, j, board){
+	let neighbors = [];
+	if(i > 0 && j > 0) {
+		neighbors.push([i - 1, j - 1]);
+	}
+	if(i > 0 && j < board[0].length - 1){
+		neighbors.push([i - 1, j + 1]);
+	}
+	if(i < board.length - 1 && j < board[0].length - 1){
+		neighbors.push([i + 1, j + 1]);
+	}
+	if(i < board.length - 1 && j > 0){
+		neighbors.push([i + 1, j - 1]);
+	}
+	if(i > 0){
+		neighbors.push([i - 1, j])
+	}
+	if(i < board.length - 1){
+		neighbors.push([i + 1, j])
+	}
+	if(j > 0){
+		neighbors.push([i, j - 1])
+	}
+	if(j < board[0].length - 1){
+		neighbors.push([i, j + 1]);
+	}
+	return neighbors;
+}
+
+class Trie3{
+	constructor(){
+		this.root = {};
+		this.endSymbol = "*"
+	}
+	add(word){
+		let cur = this.root;
+		for(let char of word){
+			if(!cur[char]) cur[char] = {};
+			cur = cur[char];
+		}
+		cur[this.endSymbol] = word;
+	}
+}
