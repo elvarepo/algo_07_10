@@ -349,3 +349,49 @@ class Trie3{
 		cur[this.endSymbol] = word;
 	}
 }
+
+// Reverse string
+function reverse(str){
+  if(str.length == 1 && str.length ==0) return true;
+  let left = 0;
+  let right = str.length - 1;
+  while(left < right){
+    if(str[left] !== str[right]) return false;
+    left++;
+    right--
+  }
+  return true;
+}
+
+// Find Missing Number between two arrays
+function findMissing(arr1, arr2){
+  if(arr1.length < arr2.length) return findMissing(arr2, arra1)
+  if(arr1.length == 0 && arr2.length ==0) return 'no missing number';
+  if(arr1.length == 0 || arr2.length ==1) return arr2[0];
+  if(arr1.length == 1 || arr2.length ==0) return arr1[0];
+  let obj = {};
+  for(let i = 0; i < arr2.length; i++){
+    obj[arr2[i]] = i;
+  }
+  for(let i = 0; i < arr1.length; i++){
+    if(!(arr1[i] in obj)) {
+      return arr1[i];
+    }
+  }
+  return "no missing number";
+}
+
+// Sum to Target
+function matchPair(arr, target){
+  if(target == 0 ) return "target number is zero";
+  if(arr.length < 2) return "array length is less than two"
+  let obj = {};
+  for(let i = 0; i < arr.length; i++){
+    let dif = target - arr[i];
+    if(dif in obj && obj[dif] !== i){
+      return [dif, arr[i]]
+    }
+    obj[arr[i]] = i;
+  }
+  return "No matched pairs";
+}
