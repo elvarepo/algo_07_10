@@ -395,3 +395,54 @@ function matchPair(arr, target){
   }
   return "No matched pairs";
 }
+
+// branch sums
+class BianryTree{
+  constructor(value){
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+function branchSums(root) {
+  let res = [];
+  dfs(root, res, 0)
+  return res;
+}
+function dfs(root,res, sum){
+  if(!root) return;
+  sum += root.value;
+  if(!root.left && !root.right) {
+    res.push(sum);
+    return;
+  }
+  dfs(root.left, res, sum)
+  dfs(root.right, res, sum)
+}
+
+
+// node Depths
+function nodeDepths(root) {
+  // let depthSum = dfs(root, 0);
+  // return  depthSum;
+	return dfs0(root, 0)
+}
+ function dfs0(node, res){
+	if(!node) return 0;
+	return res + dfs0(node.left, res + 1) + dfs0(node.right, res + 1)
+ }
+
+var maxPathSum1 = function(root) {
+  return helper(root)[1];
+};
+
+function helper(root) {
+  if (!root) {
+    return [-Infinity, -Infinity];
+  }
+  const left = helper(root.left);
+  const right = helper(root.right);
+  const localMax = root.val + Math.max(left[0], right[0], 0);
+  const globalMax = Math.max(root.val + left[0] + right[0], localMax, left[1], right[1]);
+  return [localMax, globalMax];
+}
