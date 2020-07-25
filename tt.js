@@ -446,3 +446,27 @@ function helper(root) {
   const globalMax = Math.max(root.val + left[0] + right[0], localMax, left[1], right[1]);
   return [localMax, globalMax];
 }
+
+//  Right Sibling Tree
+function rightSiblingTree(root) {
+  mutate(root, null, null);
+	return root;
+}
+function mutate(node, parent, isLeftChild){
+	if(node === null) return;
+	let {left, right} = node
+	mutate(left, node, true);
+	if(parent == null){   
+		node.right = null;
+	} else if(isLeftChild){   
+		node.right = parent.right;
+	} else {			
+		if(parent.right === null){
+			node.right = null;
+		} else {
+			node.right = parent.right.left;
+		}
+	}
+	mutate(right, node, false)
+}
+// 
