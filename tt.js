@@ -470,3 +470,45 @@ function mutate(node, parent, isLeftChild){
 	mutate(right, node, false)
 }
 // 
+
+
+//  Min Number of Jumps
+function minNumberOfJumps(array) {
+  let chainEnd = 0;
+	let farthest = 0;
+	let jumps = 0;
+	for (let i = 0; i < array.length - 1; i++) {
+    console.log(i, chainEnd,farthest);
+		if (i + array[i] > farthest) farthest = i + array[i];
+		if (i === chainEnd) {
+			jumps++;
+			chainEnd = farthest;
+		}
+      console.log(i, chainEnd,farthest, jumps);
+      console.log();
+	}
+	return jumps;
+}
+
+// Water Area
+function waterArea(heights) {
+  let max = new Array(heights.length).fill(0);
+	let leftMax = 0;
+	for(let i = 0; i < heights.length; i++){
+		let height = heights[i];
+		max[i] = leftMax;
+		leftMax = Math.max(leftMax, height);
+	}
+	let rightMax = 0;
+	for(let i = heights.length - 1; i >= 0; i--){
+		let height = heights[i];
+		let minHeight = Math.min(rightMax, max[i]);
+		if(height < minHeight){
+			max[i] = minHeight - height;
+		} else {
+			max[i] = 0;
+		}
+		rightMax = Math.max(rightMax, height);
+	}
+	return max.reduce((a,b) => a + b, 0)
+}
