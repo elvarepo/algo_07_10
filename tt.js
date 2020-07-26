@@ -512,3 +512,29 @@ function waterArea(heights) {
 	}
 	return max.reduce((a,b) => a + b, 0)
 }
+
+
+// island size
+function islandsSize(matrix){
+  if(matrix.length == 0) return 0;
+  let res = [];
+  let r = matrix.length, c = matrix[0].length;
+  let grid = matrix.slice()
+  for(let i = 0; i < r; i++){
+    for(let j = 0; j < c; j++){
+      if(grid[i][j] == 1){
+        res.push( dfs(grid, i,j) );
+      }
+    }
+  }
+  return res;
+} 
+function dfs(grid, i, j){
+
+  if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] !== 1) return 0;
+  grid[i][j] = 0;
+  return 1 + dfs(grid, i - 1, j) + dfs(grid, i + 1, j)
+           + dfs(grid, i, j - 1) + dfs(grid, i, j + 1)
+           + dfs(grid, i - 1, j - 1) + dfs(grid, i + 1, j + 1)
+           + dfs(grid, i + 1, j - 1) + dfs(grid, i - 1, j + 1)
+}
