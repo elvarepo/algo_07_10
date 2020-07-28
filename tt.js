@@ -538,3 +538,60 @@ function dfs(grid, i, j){
            + dfs(grid, i - 1, j - 1) + dfs(grid, i + 1, j + 1)
            + dfs(grid, i + 1, j - 1) + dfs(grid, i - 1, j + 1)
 }
+
+
+// Goat Latin
+var toGoatLatin2 = function(S) {   //  this is mine
+    let s = S.split(' ');
+    for(let i = 0; i < s.length; i++){
+        if(!isVowel(s[i])){
+            s[i] = s[i].substr(1) + s[i][0];
+        }
+        s[i] += 'ma'
+        for (let j = 0; j <= i; j++) {
+                   s[i] += 'a'
+               }
+    }
+    return s.join(' ');
+};
+
+function isVowel(word){
+    let c = word[0].toLowerCase();
+    return (c == "a" ||c == "e" || c == "i"|| c == "o" || c == "u" )
+}
+
+// Integer to Roman
+var intToRoman11 = function(num) {
+    let values = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+    let symbols = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
+    let index = 0;
+    let romanNum = "";
+
+    while (num > 0) {
+        if (num >= values[index]) {
+            num -= values[index];
+            romanNum += symbols[index];
+        } else index++;
+    }
+    return romanNum;
+};
+
+
+// Maximum Difference Between Nodes and Ancestor
+var maxAncestorDiff = function(root) {
+    if (!root) return 0;
+    return traverse(root, root.val, root.val)
+    
+};
+
+var traverse = function(node, min, max){
+    if (!node) return max - min
+    
+    if (node.val < min) min = node.val
+    if (node.val > max) max = node.val
+    
+    let left = traverse(node.left, min, max)
+    let right = traverse(node.right, min, max)
+    
+    return Math.max(left, right)
+}
