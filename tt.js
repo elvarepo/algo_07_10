@@ -595,3 +595,65 @@ var traverse = function(node, min, max){
     
     return Math.max(left, right)
 }
+
+
+//  Minimum Absolute Difference in BST
+
+var maxAncestorDiff = function(root) {
+    if (!root) return 0;
+    return traverse(root, root.val, root.val)
+
+};
+
+var traverse = function(node, min, max){
+    if (!node) return max - min
+
+    if (node.val < min) min = node.val
+    if (node.val > max) max = node.val
+
+    let left = traverse(node.left, min, max)
+    let right = traverse(node.right, min, max)
+
+    return Math.max(left, right)
+}
+
+
+
+//  Sum Root to Leaf Numbers
+
+var sumNumbers = function(root) {
+    let result = 0
+    dfs(root, "")
+
+    function dfs(root, currentPath){
+        if(!root) return
+        if(!root.left && !root.right){
+            currentPath += root.val
+            result += parseInt(currentPath)
+            return
+        }
+        dfs(root.left, currentPath + root.val)
+        dfs(root.right, currentPath + root.val)
+    }
+
+    return result
+};
+/////////////////////////////////////////////////////////////////////////////
+//  Minimum Absolute Difference in BST
+
+var getMinimumDifference = function(root) {  
+    if (!root) return 0;
+    let prev = null;
+    let min = Infinity;
+    var inorder = function(root){
+        if (!root) return;
+        inorder(root.left);
+        if (prev){
+            min = Math.min(min, Math.abs(root.val - prev.val));
+        }
+        prev = root;
+        inorder(root.right);
+    }
+    inorder(root);
+    return min;
+};
