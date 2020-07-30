@@ -657,3 +657,45 @@ var getMinimumDifference = function(root) {
     inorder(root);
     return min;
 };
+
+
+// best time to buy and sell 
+var maxProfit = function(prices) {
+    let hold = -Infinity, sold = 0, rest = 0;
+    for (let i = 0; i < prices.length; i++) {
+        let nextHold = Math.max(hold, rest - prices[i]);
+        let nextSold = hold + prices[i];
+        let nextRest = Math.max(rest, sold);
+        hold = nextHold;
+        sold = nextSold;
+        rest = nextRest;
+    }
+    return Math.max(sold, rest);
+};
+
+// Inorder Successor in BST
+var inorderSuccessor = function(root, p) {
+  if (p.right !== null) {
+    let current = p.right;
+    while (current.left !== null) {
+      current = current.left
+    }
+    return current;
+  } else {
+    let current = root
+    let successor = null
+
+    while (current !== null) {
+      if (current.val > p.val) {
+        successor = current
+        current = current.left
+      } else if (current.val < p.val) {
+        current = current.right
+      } else if (current === p) {
+        break
+      }
+    }
+
+    return successor
+  }
+};
