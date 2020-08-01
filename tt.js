@@ -765,3 +765,43 @@ var minPathSum = function(grid) {
     return grid[m-1][n-1];
 };
 
+
+// Unique Paths III
+var uniquePathsIII = function(board) {
+  let n = board.length;
+  let m = board[0].length;
+  let count = 0;
+
+  let startX = 0
+  let startY = 0;
+  let zeroes = 1; 
+  for (let x = 0; x < n; x++) {
+    for (let y = 0; y < m; y++) {
+      if (board[x][y] === 0) zeroes += 1;
+      if (board[x][y] === 1) {
+        startX = x;
+        startY = y;
+      }
+    }
+  }
+  const dfs = (x, y, zeroes) => {
+    if (x < 0 || x >= n || y < 0 || y >= m || board[x][y] === -1)  return;
+
+
+    if (board[x][y] === 2) {
+      if (zeroes === 0) count += 1;
+      return;
+    }
+
+    let orig = board[x][y];
+    board[x][y] = -1;
+    dfs(x + 1, y, zeroes - 1);
+    dfs(x - 1, y, zeroes - 1);
+    dfs(x, y + 1, zeroes - 1);
+    dfs(x, y - 1, zeroes - 1);
+
+    board[x][y] = orig;
+  }
+  dfs(startX, startY, zeroes);
+  return count;
+}
