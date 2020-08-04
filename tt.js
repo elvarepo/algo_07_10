@@ -805,3 +805,53 @@ var uniquePathsIII = function(board) {
   dfs(startX, startY, zeroes);
   return count;
 }
+
+
+
+// String Without AAA or BBB
+
+var strWithout3a3b = function(A, B) {
+    let a = "a", b ='b';
+    if(A < B) {
+        [A, B] = [B, A];
+        [a, b] = [b, a];
+    }
+    let res = ''
+    while(A || B){
+        if(A > 0) res += a, A--;
+        if(A > B) res += a, A--;
+        if(B > 0) res += b, B--;
+    }
+    return res;
+};
+
+
+
+// Missing Number
+var missingNumber = function(nums) {
+  let len = nums.length;
+  for(let i = 0; i < nums.length; i++){
+    len ^= i ^ nums[i]
+  }
+  return len;
+}
+
+
+//  Single Number
+var singleNumber = function(nums) {
+    let n = nums[0];
+    for(let i = 1; i < nums.length; i++){
+        n ^= nums[i]
+    }
+    return n
+};
+
+
+//  Find the Duplicate Number
+var findDuplicate = function(nums) {
+  for(let i = 0; i < nums.length; i++){
+    let n = Math.abs(nums[i])
+    if(nums[n] < 0) return n;
+    nums[n] *= -1
+  }
+};
