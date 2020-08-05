@@ -855,3 +855,29 @@ var findDuplicate = function(nums) {
     nums[n] *= -1
   }
 };
+
+
+// Partition to K Equal Sum Subsets
+var canPartitionKSubsets = function(nums, k) {
+let sum = nums.reduce((a, v) => a + v);
+	if(sum%k!==0) return false;
+	let used = Array.from({length:nums.length}, x=>false);
+  sum /= k;
+	let left = nums.length;
+  const search = (start, target) => {
+		if(left===0) return true;
+		if(target===0) return search(0, sum);
+		for(let i=start; i<nums.length; i++){
+			if(nums[i]>sum) return false;// any number > sum return false
+			if(!used[i] && nums[i]<=target){
+				used[i]=true;
+				left--;
+				if(search(i+1, target-nums[i])) return true;
+				used[i]=false;
+				left++;
+			}
+		}
+		return false;
+	}
+	return  search(0, sum);
+}
