@@ -881,3 +881,37 @@ let sum = nums.reduce((a, v) => a + v);
 	}
 	return  search(0, sum);
 }
+
+
+
+//  Missing Element in Sorted Array
+var missingElement = function(nums, k) {
+    const missing = (idx, arr) => {
+        return arr[idx] - arr[0] - idx;
+    }
+    let n = nums.length;
+    if(k > missing(n - 1, nums)){
+        return nums[n - 1] + k - missing(n - 1, nums);
+    }
+    let left = 0, right = n - 1, pivot;
+    while( left != right ){
+      pivot = left + (right - left) / 2
+      if(missing(pivot, nums) < k) left = pivot + 1;
+      else right = pivot;
+    }
+    console.log(nums[idx - 1] + k, idx,'xx');
+    return nums[left - 1] + k - missing(left - 1, nums)
+};
+
+
+
+// Find All Duplicates in an Array
+function findDuplicates4422(nums) {
+    let res = [];
+    for (let n of nums) {
+      let idx = Math.abs(n) - 1;
+      if(nums[idx] < 0) res.push(Math.abs(n)) 
+      nums[idx] *= -1;
+    }
+    return res;
+}
