@@ -915,3 +915,57 @@ function findDuplicates4422(nums) {
     }
     return res;
 }
+
+
+// Generate Parentheses
+
+var generateParenthesis = function(n) {
+  const res = [];
+  const generate = (left, right, str) => {
+    console.log('left, right', left, right);
+    if (left === n && right === n) {
+      res.push(str);
+      console.log(res);
+      return;
+    }
+    if (left < n) generate(left + 1, right, str+'(');
+    if (left > right && right < n) generate(left, right + 1, str+')');
+  }
+  generate(0, 0, '');
+
+  return res;
+};
+
+
+//. Letter Combinations of a Phone Number
+function letterCombinations2(digits) {
+  if (digits.length === 0) return [];
+
+  const map = {
+    2: 'abc',
+    3: 'def',
+    4: 'ghi',
+    5: 'jkl',
+    6: 'mno',
+    7: 'pqrs',
+    8: 'tuv',
+    9: 'wxyz',
+  };
+
+  let res = [];
+  function go(i, s) {
+    console.log(i, s);
+    if (i === digits.length) {
+      res.push(s);
+      return;
+    }
+    console.log(map[digits[i]]);
+    for (let c of map[digits[i]]) {
+      console.log('     ', c);
+      go(i + 1, s + c);
+    }
+  }
+
+  go(0, '');
+  return res;
+}
