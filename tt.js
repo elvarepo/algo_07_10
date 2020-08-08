@@ -969,3 +969,44 @@ function letterCombinations2(digits) {
   go(0, '');
   return res;
 }
+
+
+//  Minimum Cost For Tickets
+var mincostTickets = function(days, costs ) {
+  let dp = Array(days[days.length - 1] + 1).fill(0)
+  dp[0] = 0;
+  let set = new Set(days);
+  for(let i = 1; i < dp.length; i++){
+    if(!set.has(i)){
+      dp[i] = dp[i - 1];
+    } else {
+      dp[i] = Math.min(
+        dp[Math.max(0, i - 1)] + costs[0],
+        dp[Math.max(0, i - 7)] + costs[1],
+        dp[Math.max(0, i - 30)] + costs[2])
+    }
+  }
+  return dp[dp.length - 1];
+}
+
+
+
+// Partition Equal Subset Sum
+var canPartition = function(nums) {
+  if(nums.length == 1) return false;
+  let sum = nums.reduce((acc,val) => acc + val);
+
+  if(sum % 2 !== 0)return false;
+  sum /= 2;
+  let dp = Array(sum + 1).fill(false)
+  dp[0] = true;
+  console.log(dp);
+  for(let num of nums){
+    for(let i = sum; i >= num; i--){
+      dp[i] = dp[i] || dp[i - num]
+      if(dp[sum]) return true;
+      console.log(dp);
+    }
+  }
+  return dp[sum];
+}
