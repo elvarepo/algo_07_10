@@ -1010,3 +1010,30 @@ var canPartition = function(nums) {
   }
   return dp[sum];
 }
+
+
+// Partition to K Equal Sum Subsets
+var count = 0;
+var canPartitionKSubsets = function(nums, k) {
+let sum = nums.reduce((a, v) => a + v);
+	if(sum%k!==0) return false;
+	let used = Array.from({length:nums.length}, x=>false);
+  sum /= k;
+	let endIdx = nums.length;
+  const search = (start, target) => {
+		if(endIdx === 0) return true;
+		if(target === 0) return search(0, sum);
+		for(let i = start; i<nums.length; i++){
+			if(nums[i]>sum) return false;// any number > sum return false
+			if(!used[i] && nums[i]<=target){
+				used[i] = true;
+				endIdx--;
+				if(search(i+1, target-nums[i])) return true;
+				used[i] = false;
+				endIdx++;
+			}
+		}
+		return false;
+	}
+	return  search(0, sum);
+}
