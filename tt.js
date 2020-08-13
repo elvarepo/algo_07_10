@@ -1037,3 +1037,30 @@ let sum = nums.reduce((a, v) => a + v);
 	}
 	return  search(0, sum);
 }
+
+
+// Number of Dice Rolls With Target Sum
+var numRollsToTarget = function(d, f, target) {
+if (d*f<target) return 0;
+  else if (d*f===target) return 1;
+  const MAX = 1000000007
+    let dp = new Array(target+1).fill(0)
+    dp[0] = 1
+    for (let i = 1; i<=d; i++) {
+      console.log(i,'....................................');
+        for (let t = dp.length - 1; t>=0; t--) {
+          console.log(t, dp[t],'.....');
+          // for each new dice, sub problem is to add up compliment for each face value.
+
+            dp[t] = 0;
+            console.log(dp[t]);
+            for (let k = 1; k<=f && k<=t; k++) {
+              console.log(k, ' ', dp[t],dp[t] + dp[t - k], t-k);
+                dp[t] = (dp[t] + dp[t - k]) % MAX
+                console.log(dp);
+            }
+        }
+        console.log();
+    }
+    return dp[target]
+};
