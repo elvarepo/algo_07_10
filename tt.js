@@ -1064,3 +1064,41 @@ if (d*f<target) return 0;
     }
     return dp[target]
 };
+
+// Smallest Subarray with a given sum 
+
+function smallestSubarrofGivenSum(s, arr){
+    var minSize = Infinity;
+    var start = 0;
+    var sum = 0;
+    for(var i = 0; i < arr.length; i++){
+        sum += arr[i];
+        while(sum >= s){
+        minSize = Math.min(minSize, i-start+1);
+        sum -= arr[start];
+        start++;
+        }
+    }
+    return minSize===Infinity? 0: minSize;
+}
+
+// Fruites into baskets
+
+const fruits_into_baskets = function(fruits) {
+  var max = 0;
+  var start = 0;
+  var fre = {};
+  for(var i = 0; i <fruits.length; i++){
+      fre[fruits[i]]? fre[fruits[i]]++ : fre[fruits[i]] = 1;
+
+      while(Object.keys(fre).length > 2){
+          var f = fruits[start];
+          fre[f]--;
+          if(fre[f] === 0) delete(fre[f]);
+          start++;
+      }
+      max = Math.max(max, i-start+1);
+  }
+  return max;
+};
+
