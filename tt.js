@@ -1102,3 +1102,31 @@ const fruits_into_baskets = function(fruits) {
   return max;
 };
 
+
+
+// Course Schedule
+var canFinish = function(numCourses, prerequisites) {
+    let graph = {};
+    let flags = new Array(numCourses).fill(0);
+    for (let i = 0; i < prerequisites.length; ++i) {
+        let item = prerequisites[i];
+        (graph[item[1]]) ? graph[item[1]].push(item[0]) : graph[item[1]] = [item[0]];
+    }
+    let dfs = course => {
+        if (flags[course] === 1) return false;
+        // if (flags[course] === -1) return true;
+        let item = graph[course];
+        flags[course] = 1;
+        if (item)
+            for (let i = 0; i < item.length; ++i) {
+              console.log(item[i], 'item');
+                if (!dfs(item[i])) return false;
+            }
+        flags[course] = -1;
+        return true;
+    }
+    for (let i = 0; i < numCourses; ++i) {
+        if (!dfs(i)) return false;
+    }
+    return true;
+ }
