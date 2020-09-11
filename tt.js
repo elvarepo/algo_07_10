@@ -1130,3 +1130,23 @@ var canFinish = function(numCourses, prerequisites) {
     }
     return true;
  }
+
+
+// 701
+var insertIntoBST = function(root, val) {
+    if(val > root.val) {
+
+        if(root.right === null) {
+            root.right = new TreeNode(val);
+        } else {
+            root.right = insertIntoBST(root.right, val);
+        }
+    } else {
+        if(root.left === null) {
+            root.left = new TreeNode(val);
+        } else {
+            root.left = insertIntoBST(root.left, val);
+        }
+    }
+    return root;
+};
