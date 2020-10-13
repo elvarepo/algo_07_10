@@ -1150,3 +1150,44 @@ var insertIntoBST = function(root, val) {
     }
     return root;
 };
+
+
+function findSubstring(bigString, samllString){
+  if(samllString.length > bigString.length) return '';
+  let windowStart = 0,
+  matched = 0,
+  subStart = 0,
+  minLength = bigString.length + 1,
+  fre = {};
+  for(let i = 0; i < samllString.length; i++){
+    let p = samllString[i];
+    (p in fre) ? fre[p] += 1 : fre[p] = 1;
+  }
+  console.log(fre);
+  for(let i = 0; i < bigString.length; i++){
+    let char = bigString[i];
+    if(char in fre){
+      fre[char] -= 1;
+      if(fre[char] >= 0) matched++;
+    }
+
+    while(matched === samllString.length){
+      if(minLength > i - windowStart + 1){
+        minLength = i - windowStart + 1;
+        subStart = windowStart;
+      }
+      let leftChar = bigString[windowStart];
+      windowStart++;
+      if(leftChar in fre){
+        if(fre[leftChar] == 0) {
+          matched--;
+        }
+        fre[leftChar]++;
+      }
+    }
+  }
+  if (minLength > str.length) {
+   return '';
+  }
+  return bigString.slice(subStart, subStart + minLength);
+}
